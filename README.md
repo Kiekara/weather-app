@@ -13,7 +13,7 @@ via Google Play (when released)
 
 ## API
 
-Weather App uses [OpenWeatherMap]https://openweathermap.org/api API
+Weather App uses [OpenWeatherMap](https://openweathermap.org/api) API
 
 ## Credits
 
