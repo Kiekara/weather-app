@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Layout()
+                    MainScreen()
                 }
             }
         }
@@ -39,7 +38,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Layout() {
+fun MainScreen() {
     Card(
         modifier = Modifier.padding(12.dp),
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
@@ -50,7 +49,7 @@ fun Layout() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "some information")
+
         }
     }
 }
