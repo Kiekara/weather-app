@@ -28,9 +28,11 @@ fun MainScreen() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SearchBar {
-                city.value = it
-            }
+            SearchBar(
+                onSearch = {
+                    city.value = it
+                }
+            )
         }
     }
 }

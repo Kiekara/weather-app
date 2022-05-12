@@ -6,21 +6,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun SearchBar(
     onSearch: (String) -> Unit
 ) {
     val text = remember { mutableStateOf(value = "") }
+    val configuration = LocalConfiguration.current
 
     Row {
-        TextField(
-            value = text.value,
-            onValueChange = {
+        CustomTextField(
+            text = text.value,
+            onTextChange = {
                 text.value = it
             },
-            modifier = Modifier.width(200.dp)
+            onTextClear = {
+                text.value = ""
+            },
+            padding = 9.dp,
+            width = (configuration.screenWidthDp / 2).dp,
+            fontSize = 14.sp
         )
         Spacer(modifier = Modifier.width(8.dp))
         Button(
