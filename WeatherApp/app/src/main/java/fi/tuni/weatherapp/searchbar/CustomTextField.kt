@@ -26,7 +26,8 @@ fun CustomTextField(
     onTextClear: () -> Unit,
     padding: Dp,
     width: Dp,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    placeholder: String
 ) {
     Box {
         BasicTextField(
@@ -53,7 +54,7 @@ fun CustomTextField(
                     .padding(padding)
                     .alpha(ContentAlpha.medium),
                 fontSize = fontSize,
-                text = "Search for a location"
+                text = placeholder
             )
         } else {
             Row {

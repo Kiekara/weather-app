@@ -28,7 +28,8 @@ fun SearchBar(
             },
             padding = 9.dp,
             width = (configuration.screenWidthDp / 2).dp,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            placeholder = "Search for a location"
         )
         Spacer(modifier = Modifier.width(8.dp))
         Button(
