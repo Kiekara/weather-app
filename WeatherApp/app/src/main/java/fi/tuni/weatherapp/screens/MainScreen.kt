@@ -1,5 +1,6 @@
 package fi.tuni.weatherapp.screens
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,15 +12,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import fi.tuni.weatherapp.searchbar.SearchBar
 
 @Composable
 fun MainScreen() {
     val city = remember { mutableStateOf(value = "") }
+    val focusManager = LocalFocusManager.current
 
     Card(
-        modifier = Modifier.padding(12.dp),
+        modifier = Modifier
+            .padding(12.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 4.dp
     ) {
