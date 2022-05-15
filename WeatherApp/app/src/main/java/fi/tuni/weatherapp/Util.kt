@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 import java.net.URL
+import kotlin.concurrent.thread
 
 fun constructWeatherOrForecastUrl(
     searchKey: String = "weather",
@@ -45,5 +46,11 @@ fun fetchData(url: URL): String {
         for ((name, value) in it.headers) println("$name: $value")
 
         return it.body.string()
+    }
+}
+
+fun URL.fetchDataAsync(onFetch: (String) -> Unit) {
+    thread {
+        onFetch(fetchData(url = this))
     }
 }

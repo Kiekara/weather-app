@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import fi.tuni.weatherapp.constructWeatherAndForecastUrls
+import fi.tuni.weatherapp.fetchDataAsync
 import fi.tuni.weatherapp.searchbar.SearchBar
 
 @Composable
@@ -41,6 +43,12 @@ fun MainScreen() {
             SearchBar(
                 onSearch = {
                     city.value = it
+
+                    constructWeatherAndForecastUrls(city = it).forEach { url ->
+                        url!!.fetchDataAsync { response ->
+                            println(response)
+                        }
+                    }
                 }
             )
         }
