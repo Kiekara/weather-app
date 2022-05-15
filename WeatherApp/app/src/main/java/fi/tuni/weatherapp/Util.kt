@@ -17,3 +17,14 @@ fun constructWeatherOrForecastUrl(
 
     return if (city != null) URL(cityUrl) else if (lat != null && lon != null) URL(locationUrl) else null
 }
+
+fun constructWeatherAndForecastUrls(
+    city: String? = null,
+    lat: String? = null,
+    lon: String? = null
+): List<URL?> {
+    return listOf(
+        constructWeatherOrForecastUrl(city = city, lat = lat, lon = lon),
+        constructWeatherOrForecastUrl(searchKey = "forecast", city = city, lat = lat, lon = lon)
+    )
+}
