@@ -16,12 +16,17 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import fi.tuni.weatherapp.constructWeatherAndForecastUrls
+import fi.tuni.weatherapp.data.ForecastJsonObject
+import fi.tuni.weatherapp.data.WeatherJsonObject
 import fi.tuni.weatherapp.fetchDataAsync
+import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.searchbar.SearchBar
 
 @Composable
 fun MainScreen() {
     val city = remember { mutableStateOf(value = "") }
+    val weatherObj = remember { mutableStateOf(value = WeatherJsonObject()) }
+    val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
     val focusManager = LocalFocusManager.current
 
     Card(
@@ -46,6 +51,17 @@ fun MainScreen() {
 
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
                         url!!.fetchDataAsync { response ->
+                            val path = url.path.toString().split("/").last()
+
+                            when (path) {
+                                "weather" ->
+                                    weatherObj.value = response.parseWeatherOrForecastJson(searchKey = path)
+                                            as WeatherJsonObject
+                                "forecast" ->
+                                    forecastObj.value = response.parseWeatherOrForecastJson(searchKey = path)
+                                            as ForecastJsonObject
+                            }
+
                             println(response)
                         }
                     }
