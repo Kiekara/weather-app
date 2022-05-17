@@ -1,5 +1,6 @@
 package fi.tuni.weatherapp
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
@@ -53,4 +54,9 @@ fun URL.fetchDataAsync(onFetch: (String) -> Unit) {
     thread {
         onFetch(fetchData(url = this))
     }
+}
+
+fun parseJson(json: String, target: Class<*>?): Any {
+    val mp = ObjectMapper()
+    return mp.readValue(json, target)
 }
