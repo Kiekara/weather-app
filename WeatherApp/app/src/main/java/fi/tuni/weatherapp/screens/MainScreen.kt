@@ -35,7 +35,7 @@ fun MainScreen(activityContext: ComponentActivity) {
     val locationNotFound = remember { mutableStateOf(value = false) }
     val focusManager = LocalFocusManager.current
 
-    val onFetchCallback: (Pair<String, Boolean>, url: URL) -> Unit = { response, url ->
+    val onFetchCallback: (Pair<String, Boolean>, URL) -> Unit = { response, url ->
         val (data, isSuccessful) = response
         val path = url.path.toString().split("/").last()
 
