@@ -7,13 +7,18 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun WeatherView() {
+fun WeatherView(
+    city: String? = null
+) {
     val configuration = LocalConfiguration.current
 
     Surface(
@@ -26,7 +31,11 @@ fun WeatherView() {
             shape = RoundedCornerShape(corner = CornerSize(8.dp)),
             elevation = 4.dp
         ) {
-
+            IconText(
+                text = city ?: "No location",
+                icon = Icons.Default.LocationOn,
+                iconSize = 25.sp
+            )
         }
     }
 }

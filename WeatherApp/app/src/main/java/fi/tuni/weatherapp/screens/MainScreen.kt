@@ -69,7 +69,7 @@ fun MainScreen() {
                 }
             )
 
-            WeatherView()
+            WeatherView(city = weatherObj.value.name)
         }
     }
 }
