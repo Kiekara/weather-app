@@ -15,15 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import fi.tuni.weatherapp.*
+import fi.tuni.weatherapp.constructWeatherAndForecastUrls
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherJsonObject
-import fi.tuni.weatherapp.searchbar.SearchBar
+import fi.tuni.weatherapp.fetchDataAsync
+import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
 
 @Composable
 fun MainScreen() {
-    val city = remember { mutableStateOf(value = "") }
     val weatherObj = remember { mutableStateOf(value = WeatherJsonObject()) }
     val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
     val focusManager = LocalFocusManager.current
@@ -40,14 +40,20 @@ fun MainScreen() {
         elevation = 4.dp
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SearchBar(
-                onSearch = {
-                    city.value = it
-
+            WeatherView(
+                temperature = weatherObj.value.main?.temp,
+                weather = weatherObj.value.weather?.first()?.main,
+                city = weatherObj.value.name,
+                windSpeed = weatherObj.value.wind?.speed,
+                feelsLike = weatherObj.value.main?.feels_like,
+                humidity = weatherObj.value.main?.humidity,
+                sunrise = weatherObj.value.sys?.sunrise,
+                sunset = weatherObj.value.sys?.sunset,
+                onSearchCallback = {
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
                         url!!.fetchDataAsync { response ->
                             val path = url.path.toString().split("/").last()
@@ -65,17 +71,6 @@ fun MainScreen() {
                         }
                     }
                 }
-            )
-
-            WeatherView(
-                temperature = weatherObj.value.main?.temp,
-                weather = weatherObj.value.weather?.first()?.main,
-                city = weatherObj.value.name,
-                windSpeed = weatherObj.value.wind?.speed,
-                feelsLike = weatherObj.value.main?.feels_like,
-                humidity = weatherObj.value.main?.humidity,
-                sunrise = weatherObj.value.sys?.sunrise,
-                sunset = weatherObj.value.sys?.sunset
             )
         }
     }

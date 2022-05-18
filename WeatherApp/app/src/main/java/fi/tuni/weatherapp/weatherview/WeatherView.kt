@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fi.tuni.weatherapp.searchbar.SearchBar
 
 @Composable
 fun WeatherView(
@@ -25,7 +26,8 @@ fun WeatherView(
     windSpeed: Double? = 0.0,
     humidity: Int? = 0,
     sunrise: Long? = 0,
-    sunset: Long? = 0
+    sunset: Long? = 0,
+    onSearchCallback: (String) -> Unit = {}
 ) {
     val configuration = LocalConfiguration.current
 
@@ -34,8 +36,8 @@ fun WeatherView(
     ) {
         Card(
             modifier = Modifier
-                .padding(8.dp)
-                .height((configuration.screenHeightDp / 2).dp),
+                .padding(4.dp)
+                .height((configuration.screenHeightDp * 0.57).dp),
             shape = RoundedCornerShape(corner = CornerSize(8.dp)),
             elevation = 4.dp
         ) {
@@ -44,6 +46,12 @@ fun WeatherView(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                SearchBar(
+                    onSearch = {
+                        onSearchCallback(it)
+                    }
+                )
+                Spacer(modifier = Modifier.height(20.dp))
                 IconText(
                     text = city ?: "No location",
                     icon = Icons.Default.LocationOn,
