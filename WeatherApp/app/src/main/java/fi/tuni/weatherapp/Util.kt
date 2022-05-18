@@ -82,3 +82,5 @@ fun getDateString(milliSeconds: Long, dateFormat: String): String {
     calendar.timeInMillis = milliSeconds
     return formatter.format(calendar.time)
 }
+
+fun String.getTime() = this.split(" ").last()
