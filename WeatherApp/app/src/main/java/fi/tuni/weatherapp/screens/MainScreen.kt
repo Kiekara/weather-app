@@ -19,6 +19,7 @@ import fi.tuni.weatherapp.constructWeatherAndForecastUrls
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherJsonObject
 import fi.tuni.weatherapp.fetchDataAsync
+import fi.tuni.weatherapp.forecastview.ForecastPreview
 import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
 
@@ -72,6 +73,7 @@ fun MainScreen() {
                     }
                 }
             )
+            ForecastPreview()
         }
     }
 }
