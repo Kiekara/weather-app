@@ -20,7 +20,10 @@ import androidx.compose.ui.unit.sp
 fun WeatherView(
     temperature: Double? = 0.0,
     weather: String? = null,
-    city: String? = null
+    city: String? = null,
+    feelsLike: Double? = 0.0,
+    windSpeed: Double? = 0.0,
+    humidity: Int? = 0
 ) {
     val configuration = LocalConfiguration.current
 
@@ -54,7 +57,11 @@ fun WeatherView(
                     color = Color.Black,
                     thickness = 0.5.dp
                 )
-                OtherWeatherInfo()
+                OtherWeatherInfo(
+                    feelsLike = feelsLike,
+                    windSpeed = windSpeed,
+                    humidity = humidity
+                )
             }
         }
     }

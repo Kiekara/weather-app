@@ -70,7 +70,10 @@ fun MainScreen() {
             WeatherView(
                 temperature = weatherObj.value.main?.temp,
                 weather = weatherObj.value.weather?.first()?.main,
-                city = weatherObj.value.name
+                city = weatherObj.value.name,
+                windSpeed = weatherObj.value.wind?.speed,
+                feelsLike = weatherObj.value.main?.feels_like,
+                humidity = weatherObj.value.main?.humidity
             )
         }
     }
