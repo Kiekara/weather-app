@@ -13,7 +13,8 @@ data class WeatherItem(
     var dt: Long = 0,
     var main: Temperature? = null,
     var weather: MutableList<Weather>? = null,
-    var wind: Wind? = null
+    var wind: Wind? = null,
+    var icon: String? = null
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
