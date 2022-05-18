@@ -1,6 +1,7 @@
 package fi.tuni.weatherapp.screens
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import fi.tuni.weatherapp.checkLocation
 import fi.tuni.weatherapp.constructWeatherAndForecastUrls
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherJsonObject
@@ -26,11 +28,36 @@ import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
 
 @Composable
-fun MainScreen() {
+fun MainScreen(activityContext: ComponentActivity) {
     val weatherObj = remember { mutableStateOf(value = WeatherJsonObject()) }
     val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
     val locationNotFound = remember { mutableStateOf(value = false) }
     val focusManager = LocalFocusManager.current
+
+    checkLocation(activityContext = activityContext) { lat, lon, source ->
+        constructWeatherAndForecastUrls(lat = lat, lon = lon).forEach { url ->
+            url!!.fetchDataAsync { response ->
+                val (data, isSuccessful) = response
+                val path = url.path.toString().split("/").last()
+
+                if (isSuccessful) {
+                    val result = data.parseWeatherOrForecastJson(searchKey = path)
+
+                    when (path) {
+                        "weather" ->
+                            weatherObj.value = result as WeatherJsonObject
+                        "forecast" ->
+                            forecastObj.value = result as ForecastJsonObject
+                    }
+
+                    println(result)
+                } else {
+                    locationNotFound.value = !isSuccessful
+                }
+            }
+            source.cancel()
+        }
+    }
 
     Card(
         modifier = Modifier

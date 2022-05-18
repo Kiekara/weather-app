@@ -1,6 +1,10 @@
 package fi.tuni.weatherapp
 
+import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.CancellationTokenSource
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherJsonObject
 import okhttp3.OkHttpClient
@@ -9,6 +13,25 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.thread
+
+@SuppressLint("MissingPermission")
+fun checkLocation(
+    activityContext: ComponentActivity,
+    onSuccess: (String, String, CancellationTokenSource) -> Unit
+) {
+    val client = LocationServices.getFusedLocationProviderClient(activityContext)
+    val source = CancellationTokenSource()
+
+    client.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, source.token)
+        .addOnSuccessListener {
+            val lat = it.latitude.toString()
+            val lon = it.longitude.toString()
+
+            onSuccess(lat, lon, source)
+        }.addOnCanceledListener {
+            println("Source cancelled")
+        }
+}
 
 fun constructWeatherOrForecastUrl(
     searchKey: String = "weather",
