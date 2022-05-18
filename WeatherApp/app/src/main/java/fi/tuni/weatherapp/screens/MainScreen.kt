@@ -27,6 +27,7 @@ import fi.tuni.weatherapp.weatherview.WeatherView
 fun MainScreen() {
     val weatherObj = remember { mutableStateOf(value = WeatherJsonObject()) }
     val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
+    val locationNotFound = remember { mutableStateOf(value = false) }
     val focusManager = LocalFocusManager.current
 
     Card(
@@ -57,18 +58,23 @@ fun MainScreen() {
                 onSearchCallback = {
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
                         url!!.fetchDataAsync { response ->
+                            val (data, isSuccessful) = response
                             val path = url.path.toString().split("/").last()
 
-                            when (path) {
-                                "weather" ->
-                                    weatherObj.value = response.parseWeatherOrForecastJson(searchKey = path)
-                                            as WeatherJsonObject
-                                "forecast" ->
-                                    forecastObj.value = response.parseWeatherOrForecastJson(searchKey = path)
-                                            as ForecastJsonObject
-                            }
+                            if (isSuccessful) {
+                                val result = data.parseWeatherOrForecastJson(searchKey = path)
 
-                            println(response)
+                                when (path) {
+                                    "weather" ->
+                                        weatherObj.value = result as WeatherJsonObject
+                                    "forecast" ->
+                                        forecastObj.value = result as ForecastJsonObject
+                                }
+
+                                println(result)
+                            } else {
+                                locationNotFound.value = isSuccessful
+                            }
                         }
                     }
                 }

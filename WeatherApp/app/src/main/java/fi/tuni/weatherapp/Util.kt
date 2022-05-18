@@ -5,7 +5,6 @@ import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherJsonObject
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.IOException
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +37,7 @@ fun constructWeatherAndForecastUrls(
     )
 }
 
-fun fetchData(url: URL): String {
+fun fetchData(url: URL): Pair<String, Boolean> {
     val client = OkHttpClient()
 
     val request = Request.Builder()
@@ -46,15 +45,16 @@ fun fetchData(url: URL): String {
         .build()
 
     client.newCall(request = request).execute().use {
-        if (!it.isSuccessful) throw IOException("Unexpected code $it")
-
         for ((name, value) in it.headers) println("$name: $value")
 
-        return it.body.string()
+        return Pair(
+            it.body.string(),
+            it.isSuccessful
+        )
     }
 }
 
-fun URL.fetchDataAsync(onFetch: (String) -> Unit) {
+fun URL.fetchDataAsync(onFetch: (Pair<String, Boolean>) -> Unit) {
     thread {
         onFetch(fetchData(url = this))
     }
