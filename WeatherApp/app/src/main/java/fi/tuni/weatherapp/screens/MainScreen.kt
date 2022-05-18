@@ -21,6 +21,7 @@ import fi.tuni.weatherapp.data.WeatherJsonObject
 import fi.tuni.weatherapp.fetchDataAsync
 import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.searchbar.SearchBar
+import fi.tuni.weatherapp.weatherview.WeatherView
 
 @Composable
 fun MainScreen() {
@@ -67,6 +68,8 @@ fun MainScreen() {
                     }
                 }
             )
+
+            WeatherView()
         }
     }
 }
