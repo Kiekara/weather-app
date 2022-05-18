@@ -15,11 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import fi.tuni.weatherapp.constructWeatherAndForecastUrls
+import fi.tuni.weatherapp.*
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherJsonObject
-import fi.tuni.weatherapp.fetchDataAsync
-import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.searchbar.SearchBar
 import fi.tuni.weatherapp.weatherview.WeatherView
 
@@ -69,7 +67,11 @@ fun MainScreen() {
                 }
             )
 
-            WeatherView(city = weatherObj.value.name)
+            WeatherView(
+                temperature = weatherObj.value.main?.temp,
+                weather = weatherObj.value.weather?.first()?.main,
+                city = weatherObj.value.name
+            )
         }
     }
 }
