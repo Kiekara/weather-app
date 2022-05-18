@@ -7,6 +7,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.concurrent.thread
 
 fun constructWeatherOrForecastUrl(
@@ -71,4 +73,12 @@ fun String.parseWeatherOrForecastJson(searchKey: String): Any {
     }
 
     return parseJson(json = this, target = target)
+}
+
+fun getDateString(milliSeconds: Long, dateFormat: String): String {
+    val formatter = SimpleDateFormat(dateFormat, Locale.getDefault())
+    val calendar = Calendar.getInstance()
+
+    calendar.timeInMillis = milliSeconds
+    return formatter.format(calendar.time)
 }
