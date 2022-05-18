@@ -26,6 +26,7 @@ import fi.tuni.weatherapp.fetchDataAsync
 import fi.tuni.weatherapp.forecastview.ForecastPreview
 import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
+import java.net.URL
 
 @Composable
 fun MainScreen(activityContext: ComponentActivity) {
@@ -34,29 +35,33 @@ fun MainScreen(activityContext: ComponentActivity) {
     val locationNotFound = remember { mutableStateOf(value = false) }
     val focusManager = LocalFocusManager.current
 
+    val onFetchCallback: (Pair<String, Boolean>, url: URL) -> Unit = { response, url ->
+        val (data, isSuccessful) = response
+        val path = url.path.toString().split("/").last()
+
+        if (isSuccessful) {
+            val result = data.parseWeatherOrForecastJson(searchKey = path)
+
+            when (path) {
+                "weather" ->
+                    weatherObj.value = result as WeatherJsonObject
+                "forecast" ->
+                    forecastObj.value = result as ForecastJsonObject
+            }
+
+            println(result)
+        } else {
+            locationNotFound.value = !isSuccessful
+        }
+    }
+
     checkLocation(activityContext = activityContext) { lat, lon, source ->
         constructWeatherAndForecastUrls(lat = lat, lon = lon).forEach { url ->
             url!!.fetchDataAsync { response ->
-                val (data, isSuccessful) = response
-                val path = url.path.toString().split("/").last()
-
-                if (isSuccessful) {
-                    val result = data.parseWeatherOrForecastJson(searchKey = path)
-
-                    when (path) {
-                        "weather" ->
-                            weatherObj.value = result as WeatherJsonObject
-                        "forecast" ->
-                            forecastObj.value = result as ForecastJsonObject
-                    }
-
-                    println(result)
-                } else {
-                    locationNotFound.value = !isSuccessful
-                }
+                onFetchCallback(response, url)
             }
-            source.cancel()
         }
+        source.cancel()
     }
 
     Card(
@@ -85,26 +90,10 @@ fun MainScreen(activityContext: ComponentActivity) {
                 sunrise = weatherObj.value.sys?.sunrise,
                 sunset = weatherObj.value.sys?.sunset,
                 onSearchCallback = {
+                    locationNotFound.value = false
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
                         url!!.fetchDataAsync { response ->
-                            locationNotFound.value = false
-                            val (data, isSuccessful) = response
-                            val path = url.path.toString().split("/").last()
-
-                            if (isSuccessful) {
-                                val result = data.parseWeatherOrForecastJson(searchKey = path)
-
-                                when (path) {
-                                    "weather" ->
-                                        weatherObj.value = result as WeatherJsonObject
-                                    "forecast" ->
-                                        forecastObj.value = result as ForecastJsonObject
-                                }
-
-                                println(result)
-                            } else {
-                                locationNotFound.value = !isSuccessful
-                            }
+                            onFetchCallback(response, url)
                         }
                     }
                 }
