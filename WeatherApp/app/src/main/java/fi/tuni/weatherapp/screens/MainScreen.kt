@@ -73,7 +73,9 @@ fun MainScreen() {
                 city = weatherObj.value.name,
                 windSpeed = weatherObj.value.wind?.speed,
                 feelsLike = weatherObj.value.main?.feels_like,
-                humidity = weatherObj.value.main?.humidity
+                humidity = weatherObj.value.main?.humidity,
+                sunrise = weatherObj.value.sys?.sunrise,
+                sunset = weatherObj.value.sys?.sunset
             )
         }
     }

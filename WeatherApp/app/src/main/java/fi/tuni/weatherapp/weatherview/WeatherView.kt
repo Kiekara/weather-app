@@ -23,7 +23,9 @@ fun WeatherView(
     city: String? = null,
     feelsLike: Double? = 0.0,
     windSpeed: Double? = 0.0,
-    humidity: Int? = 0
+    humidity: Int? = 0,
+    sunrise: Long? = 0,
+    sunset: Long? = 0
 ) {
     val configuration = LocalConfiguration.current
 
@@ -60,7 +62,9 @@ fun WeatherView(
                 OtherWeatherInfo(
                     feelsLike = feelsLike,
                     windSpeed = windSpeed,
-                    humidity = humidity
+                    humidity = humidity,
+                    sunrise = sunrise,
+                    sunset = sunset
                 )
             }
         }
