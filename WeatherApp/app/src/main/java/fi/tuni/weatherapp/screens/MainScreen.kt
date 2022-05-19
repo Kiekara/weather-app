@@ -41,6 +41,7 @@ fun MainScreen(activityContext: ComponentActivity) {
         val path = url.path.toString().split("/").last()
 
         if (isSuccessful) {
+            focusManager.clearFocus()
             val result = data.parseWeatherOrForecastJson(searchKey = path)
 
             when (path) {
@@ -83,6 +84,14 @@ fun MainScreen(activityContext: ComponentActivity) {
         elevation = 4.dp,
         backgroundColor = Color.Black
     ) {
+        if (locationNotFound.value) {
+            Toast.makeText(
+                LocalContext.current,
+                "Location not found",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
         Column(
             modifier = Modifier.padding(4.dp),
             verticalArrangement = Arrangement.Top,
@@ -124,13 +133,6 @@ fun MainScreen(activityContext: ComponentActivity) {
                     }
                 }
             )
-            if (locationNotFound.value) {
-                Toast.makeText(
-                    LocalContext.current,
-                    "Location not found",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
             ForecastView(
                 forecastList = forecastList.value
             )

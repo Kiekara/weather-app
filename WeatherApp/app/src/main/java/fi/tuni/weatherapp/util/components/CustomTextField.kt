@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -24,6 +25,7 @@ fun CustomTextField(
     text: String,
     onTextChange: (String) -> Unit,
     onTextClear: () -> Unit,
+    onDone: () -> Unit,
     padding: Dp,
     width: Dp,
     fontSize: TextUnit,
@@ -46,7 +48,13 @@ fun CustomTextField(
                 }
             },
             textStyle = TextStyle(fontSize = fontSize),
-            singleLine = true
+            singleLine = true,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onDone()
+                    onTextClear()
+                }
+            )
         )
         if (text.isEmpty()) {
             Text(

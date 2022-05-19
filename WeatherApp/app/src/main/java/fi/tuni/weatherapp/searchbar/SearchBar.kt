@@ -27,6 +27,9 @@ fun SearchBar(
             onTextClear = {
                 text.value = ""
             },
+            onDone = {
+                onSearch(text.value)
+            },
             padding = 9.dp,
             width = (configuration.screenWidthDp / 2).dp,
             fontSize = 14.sp,
