@@ -18,7 +18,7 @@ fun MainWeatherInfo(
     ) {
         Text(
             text = "${temperature?.roundToInt() ?: 0}°C",
-            fontSize = 65.sp,
+            fontSize = 75.sp,
             fontWeight = FontWeight.Medium
         )
         Text(

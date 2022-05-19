@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -47,7 +48,7 @@ fun MainScreen(activityContext: ComponentActivity) {
                 "forecast" -> {
                     forecastObj.value = result as ForecastJsonObject
                     forecastList.value = forecastObj.value.list!!.filter {
-                        it.dt_txt!!.contains("12:00")
+                        it.dt_txt!!.contains("12:00:00")
                     }
                 }
             }
@@ -69,17 +70,18 @@ fun MainScreen(activityContext: ComponentActivity) {
 
     Card(
         modifier = Modifier
-            .padding(12.dp)
+            .padding(8.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
                 })
             },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-        elevation = 4.dp
+        elevation = 4.dp,
+        backgroundColor = Color.Black
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier.padding(4.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

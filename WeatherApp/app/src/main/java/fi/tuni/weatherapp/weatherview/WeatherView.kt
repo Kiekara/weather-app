@@ -1,5 +1,6 @@
 package fi.tuni.weatherapp.weatherview
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import fi.tuni.weatherapp.searchbar.SearchBar
 
 @Composable
@@ -38,6 +40,12 @@ fun WeatherView(
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         elevation = 4.dp
     ) {
+        Image(
+            painter = rememberAsyncImagePainter(model = "https://cdn.pixabay.com/photo/2014/04/02/14/09/world-map-306338_960_720.png"),
+            contentDescription = "Background image",
+            modifier = Modifier.padding(8.dp),
+            alpha = 0.4f
+        )
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.Top,
@@ -54,7 +62,7 @@ fun WeatherView(
                 icon = Icons.Default.LocationOn,
                 iconSize = 25.sp
             )
-            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.12).dp))
+            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.1).dp))
             MainWeatherInfo(
                 temperature = temperature,
                 weather = weather
