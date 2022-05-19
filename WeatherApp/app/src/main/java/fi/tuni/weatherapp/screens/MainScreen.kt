@@ -18,13 +18,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import fi.tuni.weatherapp.checkLocation
-import fi.tuni.weatherapp.constructWeatherAndForecastUrls
+import fi.tuni.weatherapp.*
 import fi.tuni.weatherapp.data.ForecastJsonObject
+import fi.tuni.weatherapp.data.WeatherItem
 import fi.tuni.weatherapp.data.WeatherJsonObject
-import fi.tuni.weatherapp.fetchDataAsync
 import fi.tuni.weatherapp.forecastview.ForecastPreview
-import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
 import java.net.URL
 
@@ -32,6 +30,7 @@ import java.net.URL
 fun MainScreen(activityContext: ComponentActivity) {
     val weatherObj = remember { mutableStateOf(value = WeatherJsonObject()) }
     val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
+    val forecastList = remember { mutableStateOf(value = listOf(WeatherItem())) }
     val locationNotFound = remember { mutableStateOf(value = false) }
     val focusManager = LocalFocusManager.current
 
@@ -45,8 +44,12 @@ fun MainScreen(activityContext: ComponentActivity) {
             when (path) {
                 "weather" ->
                     weatherObj.value = result as WeatherJsonObject
-                "forecast" ->
+                "forecast" -> {
                     forecastObj.value = result as ForecastJsonObject
+                    forecastList.value = forecastObj.value.list!!.filter {
+                        it.dt_txt!!.contains("12:00")
+                    }
+                }
             }
 
             println(result)
