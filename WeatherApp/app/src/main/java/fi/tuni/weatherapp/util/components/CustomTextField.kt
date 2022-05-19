@@ -1,4 +1,4 @@
-package fi.tuni.weatherapp.searchbar
+package fi.tuni.weatherapp.util.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

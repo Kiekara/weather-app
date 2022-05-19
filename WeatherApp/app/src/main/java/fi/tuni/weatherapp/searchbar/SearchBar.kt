@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fi.tuni.weatherapp.util.components.CustomTextField
 
 @Composable
 fun SearchBar(

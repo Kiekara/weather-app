@@ -1,4 +1,4 @@
-package fi.tuni.weatherapp.weatherview
+package fi.tuni.weatherapp.util.components
 
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fi.tuni.weatherapp.getDateString
 import fi.tuni.weatherapp.getTime
+import fi.tuni.weatherapp.util.components.LabeledText
 import kotlin.math.roundToInt
 
 @Composable
