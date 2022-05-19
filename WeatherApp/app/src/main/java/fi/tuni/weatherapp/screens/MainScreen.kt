@@ -111,7 +111,9 @@ fun MainScreen(activityContext: ComponentActivity) {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            ForecastView()
+            ForecastView(
+                forecastList = forecastList.value
+            )
         }
     }
 }
