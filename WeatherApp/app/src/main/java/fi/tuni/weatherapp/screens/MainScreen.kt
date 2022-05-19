@@ -70,7 +70,7 @@ fun MainScreen(activityContext: ComponentActivity) {
 
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(4.dp)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()

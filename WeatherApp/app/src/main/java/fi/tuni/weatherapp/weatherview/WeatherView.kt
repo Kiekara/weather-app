@@ -37,7 +37,7 @@ fun WeatherView(
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .height((configuration.screenHeightDp * 0.57).dp)
+            .height((configuration.screenHeightDp * 0.52).dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         elevation = 4.dp
@@ -58,13 +58,13 @@ fun WeatherView(
                     onSearchCallback(it)
                 }
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             IconText(
                 text = city ?: "No location",
                 icon = Icons.Default.LocationOn,
                 iconSize = 25.sp
             )
-            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.1).dp))
+            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.05).dp))
             MainWeatherInfo(
                 temperature = temperature,
                 weather = weather,
