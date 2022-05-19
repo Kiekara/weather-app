@@ -45,7 +45,7 @@ fun WeatherView(
         Image(
             painter = rememberAsyncImagePainter(model = "https://cdn.pixabay.com/photo/2014/04/02/14/09/world-map-306338_960_720.png"),
             contentDescription = "Background image",
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(12.dp),
             alpha = 0.35f
         )
         Column(
