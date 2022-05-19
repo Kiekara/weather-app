@@ -23,7 +23,7 @@ import fi.tuni.weatherapp.*
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherItem
 import fi.tuni.weatherapp.data.WeatherJsonObject
-import fi.tuni.weatherapp.forecastview.ForecastPreview
+import fi.tuni.weatherapp.forecastview.ForecastView
 import fi.tuni.weatherapp.weatherview.WeatherView
 import java.net.URL
 
@@ -110,7 +110,7 @@ fun MainScreen(activityContext: ComponentActivity) {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            ForecastPreview()
+            ForecastView()
         }
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ForecastPreview() {
+fun ForecastView() {
     Card(
         modifier = Modifier
             .padding(4.dp)
