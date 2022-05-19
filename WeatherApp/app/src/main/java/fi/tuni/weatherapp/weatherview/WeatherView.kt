@@ -30,7 +30,9 @@ fun WeatherView(
     sunrise: Long? = 0,
     sunset: Long? = 0,
     icon: String? = null,
-    onSearchCallback: (String) -> Unit = {}
+    onSearchCallback: (String) -> Unit = {},
+    onResetCallback: () -> Unit = {},
+    onRefreshCallback: () -> Unit = {}
 ) {
     val configuration = LocalConfiguration.current
 
@@ -64,7 +66,7 @@ fun WeatherView(
                 icon = Icons.Default.LocationOn,
                 iconSize = 25.sp
             )
-            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.05).dp))
+            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.04).dp))
             MainWeatherInfo(
                 temperature = temperature,
                 weather = weather,
@@ -75,13 +77,20 @@ fun WeatherView(
                 color = Color.Black,
                 thickness = 0.5.dp
             )
-            OtherWeatherInfo(
-                feelsLike = feelsLike,
-                windSpeed = windSpeed,
-                humidity = humidity,
-                sunrise = sunrise,
-                sunset = sunset
-            )
+            Row {
+                OtherWeatherInfo(
+                    feelsLike = feelsLike,
+                    windSpeed = windSpeed,
+                    humidity = humidity,
+                    sunrise = sunrise,
+                    sunset = sunset
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                IconButtonGroup(
+                    onResetCallback = onResetCallback,
+                    onRefreshCallback = onRefreshCallback
+                )
+            }
         }
     }
 }

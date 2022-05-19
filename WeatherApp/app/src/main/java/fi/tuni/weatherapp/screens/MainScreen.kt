@@ -33,6 +33,7 @@ fun MainScreen(activityContext: ComponentActivity) {
     val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
     val forecastList = remember { mutableStateOf(value = listOf(WeatherItem())) }
     val locationNotFound = remember { mutableStateOf(value = false) }
+    val city = remember { mutableStateOf(value = "") }
     val focusManager = LocalFocusManager.current
 
     val onFetchCallback: (Pair<String, Boolean>, URL) -> Unit = { response, url ->
@@ -43,8 +44,10 @@ fun MainScreen(activityContext: ComponentActivity) {
             val result = data.parseWeatherOrForecastJson(searchKey = path)
 
             when (path) {
-                "weather" ->
+                "weather" -> {
                     weatherObj.value = result as WeatherJsonObject
+                    city.value = weatherObj.value.name ?: ""
+                }
                 "forecast" -> {
                     forecastObj.value = result as ForecastJsonObject
                     forecastList.value = forecastObj.value.list!!.filter {
@@ -98,6 +101,23 @@ fun MainScreen(activityContext: ComponentActivity) {
                 onSearchCallback = {
                     locationNotFound.value = false
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
+                        url!!.fetchDataAsync { response ->
+                            onFetchCallback(response, url)
+                        }
+                    }
+                },
+                onResetCallback = {
+                    checkLocation(activityContext = activityContext) { lat, lon, source ->
+                        constructWeatherAndForecastUrls(lat = lat, lon = lon).forEach { url ->
+                            url!!.fetchDataAsync { response ->
+                                onFetchCallback(response, url)
+                            }
+                        }
+                        source.cancel()
+                    }
+                },
+                onRefreshCallback = {
+                    constructWeatherAndForecastUrls(city = city.value).forEach { url ->
                         url!!.fetchDataAsync { response ->
                             onFetchCallback(response, url)
                         }
