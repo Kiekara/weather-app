@@ -19,11 +19,14 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import fi.tuni.weatherapp.*
+import fi.tuni.weatherapp.checkLocation
+import fi.tuni.weatherapp.constructWeatherAndForecastUrls
 import fi.tuni.weatherapp.data.ForecastJsonObject
 import fi.tuni.weatherapp.data.WeatherItem
 import fi.tuni.weatherapp.data.WeatherJsonObject
+import fi.tuni.weatherapp.fetchDataAsync
 import fi.tuni.weatherapp.forecastview.ForecastView
+import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
 import java.net.URL
 
@@ -37,6 +40,8 @@ fun MainScreen(activityContext: ComponentActivity) {
     val focusManager = LocalFocusManager.current
 
     val onFetchCallback: (Pair<String, Boolean>, URL) -> Unit = { response, url ->
+        locationNotFound.value = false
+
         val (data, isSuccessful) = response
         val path = url.path.toString().split("/").last()
 
@@ -93,7 +98,8 @@ fun MainScreen(activityContext: ComponentActivity) {
         }
 
         Column(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier
+                .padding(4.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -108,12 +114,12 @@ fun MainScreen(activityContext: ComponentActivity) {
                 sunset = weatherObj.value.sys?.sunset,
                 icon = weatherObj.value.weather?.first()?.icon,
                 onSearchCallback = {
-                    locationNotFound.value = false
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
                         url!!.fetchDataAsync { response ->
                             onFetchCallback(response, url)
                         }
                     }
+                    locationNotFound.value
                 },
                 onResetCallback = {
                     checkLocation(activityContext = activityContext) { lat, lon, source ->

@@ -3,7 +3,6 @@ package fi.tuni.weatherapp.weatherview
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import fi.tuni.weatherapp.getDateString
 import fi.tuni.weatherapp.getTime
@@ -19,26 +18,28 @@ fun OtherWeatherInfo(
     sunset: Long? = 0
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row() {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
             LabeledText(
                 text = "${feelsLike?.roundToInt() ?: 0}°C",
                 label = "feels like"
             )
-            Spacer(modifier = Modifier.width(20.dp))
             LabeledText(
                 text = "${windSpeed?.roundToInt() ?: 0} m/s",
                 label = "wind speed"
             )
-            Spacer(modifier = Modifier.width(20.dp))
             LabeledText(
                 text = "${humidity ?: 0}%",
                 label = "humidity"
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row() {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             LabeledText(
                 text = "${
                     getDateString(
@@ -48,7 +49,6 @@ fun OtherWeatherInfo(
                 } am",
                 label = "sunrise"
             )
-            Spacer(modifier = Modifier.width(16.dp))
             LabeledText(
                 text = "${
                     getDateString(

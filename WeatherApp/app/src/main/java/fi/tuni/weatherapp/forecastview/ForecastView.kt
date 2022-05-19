@@ -1,8 +1,10 @@
 package fi.tuni.weatherapp.forecastview
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -19,8 +21,6 @@ import fi.tuni.weatherapp.getDayString
 fun ForecastView(
     forecastList: List<WeatherItem>
 ) {
-    var index = 0
-
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -30,7 +30,12 @@ fun ForecastView(
         backgroundColor = Color.LightGray
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier
+                .padding(12.dp)
+                .verticalScroll(
+                    state = rememberScrollState(),
+                    enabled = true
+                ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -38,7 +43,7 @@ fun ForecastView(
                 text = "5-DAY FORECAST",
                 fontWeight = FontWeight.Medium
             )
-            forecastList.map {
+            forecastList.forEach {
                 Divider(
                     modifier = Modifier.padding(12.dp),
                     color = Color.Black,
@@ -51,7 +56,6 @@ fun ForecastView(
                     temperature = it.main?.temp,
                     icon = it.weather?.first()?.icon
                 )
-                index++
             }
         }
     }

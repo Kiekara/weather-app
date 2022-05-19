@@ -15,17 +15,14 @@ import fi.tuni.weatherapp.screens.MainScreen
 import fi.tuni.weatherapp.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
+    private val activityContext = this
     private val requestPermission = registerForActivityResult(
         RequestPermission()
     ) {
-        println(it)
+        if (it) showUI()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val activityContext = this
-        requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-
+    private val showUI: () -> Unit = {
         setContent {
             WeatherAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -37,6 +34,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 }
 

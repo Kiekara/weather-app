@@ -52,7 +52,6 @@ fun CustomTextField(
             keyboardActions = KeyboardActions(
                 onDone = {
                     onDone()
-                    onTextClear()
                 }
             )
         )

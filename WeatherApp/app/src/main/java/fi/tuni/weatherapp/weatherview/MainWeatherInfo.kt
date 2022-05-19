@@ -27,7 +27,8 @@ fun MainWeatherInfo(
             fontWeight = FontWeight.Medium
         )
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Image(
                 painter = rememberAsyncImagePainter(
@@ -36,7 +37,6 @@ fun MainWeatherInfo(
                 contentDescription = "Weather icon",
                 modifier = Modifier.size(40.dp)
             )
-            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = weather ?: "No data",
                 fontSize = 25.sp,

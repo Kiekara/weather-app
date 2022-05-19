@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -30,22 +29,22 @@ fun WeatherView(
     sunrise: Long? = 0,
     sunset: Long? = 0,
     icon: String? = null,
-    onSearchCallback: (String) -> Unit = {},
+    onSearchCallback: (String) -> Boolean = { true },
     onResetCallback: () -> Unit = {},
     onRefreshCallback: () -> Unit = {}
 ) {
-    val configuration = LocalConfiguration.current
-
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .height((configuration.screenHeightDp * 0.52).dp)
+            .requiredHeight(412.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         elevation = 4.dp
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = "https://cdn.pixabay.com/photo/2014/04/02/14/09/world-map-306338_960_720.png"),
+            painter = rememberAsyncImagePainter(
+                model = "https://cdn.pixabay.com/photo/2014/04/02/14/09/world-map-306338_960_720.png"
+            ),
             contentDescription = "Background image",
             modifier = Modifier.padding(12.dp),
             alpha = 0.35f
@@ -56,7 +55,7 @@ fun WeatherView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchBar(
-                onSearch = {
+                onSearchCallback = {
                     onSearchCallback(it)
                 }
             )
@@ -66,7 +65,7 @@ fun WeatherView(
                 icon = Icons.Default.LocationOn,
                 iconSize = 25.sp
             )
-            Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.04).dp))
+            Spacer(modifier = Modifier.height(32.dp))
             MainWeatherInfo(
                 temperature = temperature,
                 weather = weather,
@@ -77,7 +76,9 @@ fun WeatherView(
                 color = Color.Black,
                 thickness = 0.5.dp
             )
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 OtherWeatherInfo(
                     feelsLike = feelsLike,
                     windSpeed = windSpeed,
@@ -85,7 +86,6 @@ fun WeatherView(
                     sunrise = sunrise,
                     sunset = sunset
                 )
-                Spacer(modifier = Modifier.width(16.dp))
                 IconButtonGroup(
                     onResetCallback = onResetCallback,
                     onRefreshCallback = onRefreshCallback
