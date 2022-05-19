@@ -36,6 +36,7 @@ fun SearchBar(
         Button(
             onClick = {
                 onSearch(text.value)
+                text.value = ""
             }
         ) {
             Text(text = "Search")
