@@ -94,6 +94,7 @@ fun MainScreen(activityContext: ComponentActivity) {
                 humidity = weatherObj.value.main?.humidity,
                 sunrise = weatherObj.value.sys?.sunrise,
                 sunset = weatherObj.value.sys?.sunset,
+                icon = weatherObj.value.weather?.first()?.icon,
                 onSearchCallback = {
                     locationNotFound.value = false
                     constructWeatherAndForecastUrls(city = it).forEach { url ->

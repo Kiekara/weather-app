@@ -14,7 +14,6 @@ data class WeatherItem(
     var main: Temperature? = null,
     var weather: MutableList<Weather>? = null,
     var wind: Wind? = null,
-    var icon: String? = null,
     var dt_txt: String? = null
 )
 

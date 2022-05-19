@@ -14,7 +14,8 @@ data class WeatherJsonObject(
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Weather(
     var main: String? = null,
-    var description: String? = null
+    var description: String? = null,
+    var icon: String? = null
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)

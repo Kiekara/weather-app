@@ -28,6 +28,7 @@ fun WeatherView(
     humidity: Int? = 0,
     sunrise: Long? = 0,
     sunset: Long? = 0,
+    icon: String? = null,
     onSearchCallback: (String) -> Unit = {}
 ) {
     val configuration = LocalConfiguration.current
@@ -65,7 +66,8 @@ fun WeatherView(
             Spacer(modifier = Modifier.height((configuration.screenHeightDp * 0.1).dp))
             MainWeatherInfo(
                 temperature = temperature,
-                weather = weather
+                weather = weather,
+                icon = icon
             )
             Divider(
                 modifier = Modifier.padding(12.dp),
