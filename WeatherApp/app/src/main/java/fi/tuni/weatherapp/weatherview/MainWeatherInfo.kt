@@ -26,13 +26,15 @@ fun MainWeatherInfo(
             fontSize = 75.sp,
             fontWeight = FontWeight.Medium
         )
-        Row() {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = "https://openweathermap.org/img/wn/$icon@2x.png"
                 ),
                 contentDescription = "Weather icon",
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(40.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
