@@ -107,3 +107,19 @@ fun getDateString(milliSeconds: Long, dateFormat: String): String {
 }
 
 fun String.getTime() = this.split(" ").last()
+
+fun getDayString(milliSeconds: Long): String {
+    val calendar = GregorianCalendar()
+    calendar.time = Date(milliSeconds)
+
+    return when (calendar.get(Calendar.DAY_OF_WEEK)) {
+        Calendar.MONDAY -> "Monday"
+        Calendar.TUESDAY -> "Tuesday"
+        Calendar.WEDNESDAY -> "Wednesday"
+        Calendar.THURSDAY -> "Thursday"
+        Calendar.FRIDAY -> "Friday"
+        Calendar.SATURDAY -> "Saturday"
+        Calendar.SUNDAY -> "Sunday"
+        else -> "unknown"
+    }
+}
