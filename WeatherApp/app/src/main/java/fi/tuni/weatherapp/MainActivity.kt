@@ -1,44 +1,85 @@
 package fi.tuni.weatherapp
 
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import fi.tuni.weatherapp.screens.MainScreen
 import fi.tuni.weatherapp.ui.theme.WeatherAppTheme
 
+@ExperimentalPermissionsApi
 class MainActivity : ComponentActivity() {
-    private val activityContext = this
-    private val requestPermission = registerForActivityResult(
-        RequestPermission()
-    ) {
-        if (it) showUI()
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    private val showUI: () -> Unit = {
         setContent {
             WeatherAppTheme {
-                // A surface container using the 'background' color from the theme
+                val permission = rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.Black
                 ) {
-                    MainScreen(activityContext = activityContext)
+                    when (val status = permission.status) {
+                        PermissionStatus.Granted -> MainScreen(activityContext = this)
+                        is PermissionStatus.Denied -> {
+                            Column(
+                                modifier = Modifier.padding(50.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                val textToShow = if (status.shouldShowRationale) {
+                                    "Location permission required to use the app. " +
+                                            "Please grant the permission."
+                                } else {
+                                    "Location permission required to use the app. " +
+                                            "Please go to settings to grant the permission."
+                                }
+                                Text(
+                                    text = textToShow,
+                                    color = Color.White,
+                                    textAlign = TextAlign.Center
+                                )
+                                Spacer(modifier = Modifier.height(20.dp))
+                                Button(
+                                    onClick = {
+                                        if (status.shouldShowRationale) permission.launchPermissionRequest()
+                                        else startActivity(
+                                            Intent(
+                                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                                Uri.fromParts("package", packageName, null)
+                                            )
+                                        )
+                                    }
+                                ) {
+                                    Text(
+                                        text = if (status.shouldShowRationale) "Request permission"
+                                            else "Go to settings"
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 }
 
