@@ -18,8 +18,10 @@ import coil.compose.rememberAsyncImagePainter
 import fi.tuni.weatherapp.searchbar.SearchBar
 import fi.tuni.weatherapp.util.components.IconText
 
+// Composable function for grouping all the current weather data
 @Composable
 fun WeatherView(
+    // Data to be shown
     temperature: Double? = 0.0,
     weather: String? = null,
     city: String? = null,
@@ -29,8 +31,11 @@ fun WeatherView(
     sunrise: Long? = 0,
     sunset: Long? = 0,
     icon: String? = null,
+    // Callback to be invoked on search
     onSearchCallback: (String) -> Boolean = { true },
+    // Callback to be invoked on reset
     onResetCallback: () -> Unit = {},
+    // Callback to be invoked on refresh
     onRefreshCallback: () -> Unit = {}
 ) {
     Card(
@@ -41,6 +46,7 @@ fun WeatherView(
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         elevation = 4.dp
     ) {
+        // Show background image
         Image(
             painter = rememberAsyncImagePainter(
                 model = "https://cdn.pixabay.com/photo/2014/04/02/14/09/world-map-306338_960_720.png"
@@ -56,16 +62,19 @@ fun WeatherView(
         ) {
             SearchBar(
                 onSearchCallback = {
+                    // Invoke onSearchCallback with the given input
                     onSearchCallback(it)
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
+            // Current or searched location text
             IconText(
                 text = city ?: "No location",
                 icon = Icons.Default.LocationOn,
                 iconSize = 25.sp
             )
             Spacer(modifier = Modifier.height(32.dp))
+            // Main weather data to be shown
             MainWeatherInfo(
                 temperature = temperature,
                 weather = weather,
@@ -79,6 +88,7 @@ fun WeatherView(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // Other weather data to be shown
                 OtherWeatherInfo(
                     feelsLike = feelsLike,
                     windSpeed = windSpeed,
@@ -86,8 +96,11 @@ fun WeatherView(
                     sunrise = sunrise,
                     sunset = sunset
                 )
+                // Location reset and search refresh icon buttons
                 IconButtonGroup(
+                    // Callback to be invoked on reset
                     onResetCallback = onResetCallback,
+                    // Callback to be invoked on refresh
                     onRefreshCallback = onRefreshCallback
                 )
             }

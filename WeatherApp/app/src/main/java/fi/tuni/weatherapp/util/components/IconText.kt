@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
+// Composable function for a text with leading icon
 @Composable
 fun IconText(
     text: String,
@@ -24,11 +25,13 @@ fun IconText(
     iconSize: TextUnit = 20.sp
 ) {
     val id = "inlineContent"
+    // Annotated string with inline content id
     val annotatedText = buildAnnotatedString {
         appendInlineContent(id = id, alternateText = "[icon]")
         append(text)
     }
 
+    // Inline content with id
     val inlineContent = mapOf(
         Pair(
             id,
@@ -39,6 +42,7 @@ fun IconText(
                     placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
                 )
             ) {
+                // Icon to be appended
                 Icon(
                     imageVector = icon,
                     contentDescription = "Icon"

@@ -30,32 +30,50 @@ import fi.tuni.weatherapp.parseWeatherOrForecastJson
 import fi.tuni.weatherapp.weatherview.WeatherView
 import java.net.URL
 
+// Composable function for main screen of the application
 @Composable
 fun MainScreen(activityContext: ComponentActivity) {
+    // State for current weather data
     val weatherObj = remember { mutableStateOf(value = WeatherJsonObject()) }
+    // State for 5-day forecast data
     val forecastObj = remember { mutableStateOf(value = ForecastJsonObject()) }
+    // State for filtered 5-day forecast data
     val forecastList = remember { mutableStateOf(value = listOf(WeatherItem())) }
+    // State for location search errors
     val locationNotFound = remember { mutableStateOf(value = false) }
+    // State for the last city searched
     val city = remember { mutableStateOf(value = "") }
+    // Focus manager for clearing focus at certain actions
     val focusManager = LocalFocusManager.current
 
+    // Callback to be invoked on fetch
     val onFetchCallback: (Pair<String, Boolean>, URL) -> Unit = { response, url ->
-        locationNotFound.value = false
+        // Switches state value to false if it happens to be true
+        if (locationNotFound.value) locationNotFound.value = false
 
+        // Destruct incoming response into String and Boolean variables
         val (data, isSuccessful) = response
+        // Get the path value of "weather" or "forecast"
         val path = url.path.toString().split("/").last()
 
+        // If the fetch was successful
         if (isSuccessful) {
+            // Clear focus, which closes the keyboard if it's still active
             focusManager.clearFocus()
+            // Parse the data string with the given path value
             val result = data.parseWeatherOrForecastJson(searchKey = path)
 
             when (path) {
+                // When the path is "weather" save the parsing result as WeatherJsonObject
                 "weather" -> {
                     weatherObj.value = result as WeatherJsonObject
+                    // Save the fetched location name
                     city.value = weatherObj.value.name ?: ""
                 }
+                // When the path is "forecast" save the parsing result as ForecastJsonObject
                 "forecast" -> {
                     forecastObj.value = result as ForecastJsonObject
+                    // Filter weather when it's high noon
                     forecastList.value = forecastObj.value.list!!.filter {
                         it.dt_txt!!.contains("12:00:00")
                     }
@@ -64,16 +82,22 @@ fun MainScreen(activityContext: ComponentActivity) {
 
             println(result)
         } else {
+            // If the fetch was a failure, save true
             locationNotFound.value = !isSuccessful
         }
     }
 
+    // Check current location when the application opens
     checkLocation(activityContext = activityContext) { lat, lon, source ->
+        // Construct urls with coordinates and iterate them
         constructWeatherAndForecastUrls(lat = lat, lon = lon).forEach { url ->
+            // Fetch the data with the given url
             url!!.fetchDataAsync { response ->
+                // Invoke onFetchCallback with the response and the url
                 onFetchCallback(response, url)
             }
         }
+        // Close the location source after data fetching
         source.cancel()
     }
 
@@ -81,6 +105,7 @@ fun MainScreen(activityContext: ComponentActivity) {
         modifier = Modifier
             .padding(4.dp)
             .pointerInput(Unit) {
+                // Clear focus by clicking the UI, which also closes the active keyboard
                 detectTapGestures(onTap = {
                     focusManager.clearFocus()
                 })
@@ -89,6 +114,7 @@ fun MainScreen(activityContext: ComponentActivity) {
         elevation = 4.dp,
         backgroundColor = Color.Black
     ) {
+        // If location search was a failure, display a short toast to the user
         if (locationNotFound.value) {
             Toast.makeText(
                 LocalContext.current,
@@ -98,12 +124,12 @@ fun MainScreen(activityContext: ComponentActivity) {
         }
 
         Column(
-            modifier = Modifier
-                .padding(4.dp),
+            modifier = Modifier.padding(4.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             WeatherView(
+                // Data to be shown
                 temperature = weatherObj.value.main?.temp,
                 weather = weatherObj.value.weather?.first()?.main,
                 city = weatherObj.value.name,
@@ -114,14 +140,19 @@ fun MainScreen(activityContext: ComponentActivity) {
                 sunset = weatherObj.value.sys?.sunset,
                 icon = weatherObj.value.weather?.first()?.icon,
                 onSearchCallback = {
+                    // Construct urls with the given input
                     constructWeatherAndForecastUrls(city = it).forEach { url ->
+                        // Fetch the data with the given url
                         url!!.fetchDataAsync { response ->
+                            // Invoke onFetchCallback with the response and the url
                             onFetchCallback(response, url)
                         }
                     }
+                    // Return a boolean value of whether the search was successful or not
                     locationNotFound.value
                 },
                 onResetCallback = {
+                    // Check the current location or reset any search results
                     checkLocation(activityContext = activityContext) { lat, lon, source ->
                         constructWeatherAndForecastUrls(lat = lat, lon = lon).forEach { url ->
                             url!!.fetchDataAsync { response ->
@@ -132,6 +163,7 @@ fun MainScreen(activityContext: ComponentActivity) {
                     }
                 },
                 onRefreshCallback = {
+                    // Refresh the results with the last known location
                     constructWeatherAndForecastUrls(city = city.value).forEach { url ->
                         url!!.fetchDataAsync { response ->
                             onFetchCallback(response, url)
@@ -140,6 +172,7 @@ fun MainScreen(activityContext: ComponentActivity) {
                 }
             )
             ForecastView(
+                // Filtered forecast list to be iterated
                 forecastList = forecastList.value
             )
         }

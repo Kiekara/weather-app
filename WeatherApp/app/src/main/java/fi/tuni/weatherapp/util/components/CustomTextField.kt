@@ -20,11 +20,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
+// Composable function for a single customised text field
 @Composable
 fun CustomTextField(
     text: String,
+    // Callback to be invoked on text change
     onTextChange: (String) -> Unit,
+    // Callback to be invoked on text clear
     onTextClear: () -> Unit,
+    // Callback to be invoked on keyboard action done
     onDone: () -> Unit,
     padding: Dp,
     width: Dp,
@@ -35,9 +39,11 @@ fun CustomTextField(
         BasicTextField(
             value = text,
             onValueChange = {
+                // Invoke onTextChange callback with current input value
                 onTextChange(it)
             },
             decorationBox = { innerTextField ->
+                // Modify text field skeleton
                 Row(
                     Modifier
                         .background(Color.LightGray, RoundedCornerShape(percent = 12))
@@ -48,14 +54,17 @@ fun CustomTextField(
                 }
             },
             textStyle = TextStyle(fontSize = fontSize),
+            // Prevent input from multi lining
             singleLine = true,
             keyboardActions = KeyboardActions(
                 onDone = {
+                    // Invoke onDone callback
                     onDone()
                 }
             )
         )
         if (text.isEmpty()) {
+            // When there's no input, show placeholder text
             Text(
                 modifier = Modifier
                     .padding(padding)
@@ -64,10 +73,12 @@ fun CustomTextField(
                 text = placeholder
             )
         } else {
+            // Else show IconButton for text field clearance
             Row {
                 Spacer(modifier = Modifier.width(width - 40.dp))
                 IconButton(
                     onClick = {
+                        // Invoke onTextClear callback
                         onTextClear()
                     },
                     modifier = Modifier.size(38.dp)

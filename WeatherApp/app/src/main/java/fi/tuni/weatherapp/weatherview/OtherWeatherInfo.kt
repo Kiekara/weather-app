@@ -9,8 +9,10 @@ import fi.tuni.weatherapp.getTime
 import fi.tuni.weatherapp.util.components.LabeledText
 import kotlin.math.roundToInt
 
+// Composable function for showing other than main weather data
 @Composable
 fun OtherWeatherInfo(
+    // Data to be shown
     feelsLike: Double? = 0.0,
     windSpeed: Double? = 0.0,
     humidity: Int? = 0,
@@ -24,14 +26,17 @@ fun OtherWeatherInfo(
         Row(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
+            // Current feels like temperature text
             LabeledText(
                 text = "${feelsLike?.roundToInt() ?: 0}°C",
                 label = "feels like"
             )
+            // Current wind speed text
             LabeledText(
                 text = "${windSpeed?.roundToInt() ?: 0} m/s",
                 label = "wind speed"
             )
+            // Current humidity text
             LabeledText(
                 text = "${humidity ?: 0}%",
                 label = "humidity"
@@ -40,8 +45,10 @@ fun OtherWeatherInfo(
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Sunrise time for the current day
             LabeledText(
                 text = "${
+                    // Slice only hours and minutes from time
                     getDateString(
                         milliSeconds = sunrise?.times(1000) ?: 0,
                         dateFormat = "dd/MM/yyyy hh:mm:ss"
@@ -49,8 +56,10 @@ fun OtherWeatherInfo(
                 } am",
                 label = "sunrise"
             )
+            // Sunset time for the current day
             LabeledText(
                 text = "${
+                    // Slice only hours and minutes from time
                     getDateString(
                         milliSeconds = sunset?.times(1000) ?: 0,
                         dateFormat = "dd/MM/yyyy hh:mm:ss"

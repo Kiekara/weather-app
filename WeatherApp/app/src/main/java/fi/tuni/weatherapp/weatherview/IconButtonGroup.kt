@@ -17,11 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+// Composable function for a fixed set of icon buttons
 @Composable
 fun IconButtonGroup(
+    // Callback to be invoked on reset
     onResetCallback: () -> Unit = {},
+    // Callback to be invoked on refresh
     onRefreshCallback: () -> Unit = {}
 ) {
+    // Modifier for IconButton
     val getModifier: (Color, Dp) -> Modifier = { color, size ->
         Modifier.background(
             color = color,
@@ -38,6 +42,7 @@ fun IconButtonGroup(
     ) {
         IconButton(
             onClick = {
+                // Invoke onResetCallback
                 onResetCallback()
             },
             modifier = getModifier(Color.Green, 25.dp)
@@ -49,6 +54,7 @@ fun IconButtonGroup(
         }
         IconButton(
             onClick = {
+                // Invoke onRefreshCallback
                 onRefreshCallback()
             },
             modifier = getModifier(Color.Cyan, 25.dp)

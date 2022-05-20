@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
+// Composable function for a text with a label
 @Composable
 fun LabeledText(
     text: String,
@@ -20,11 +21,13 @@ fun LabeledText(
     Column(
         horizontalAlignment = Alignment.Start
     ) {
+        // Text label
         Text(
             text = label,
             fontSize = labelSize,
             color = labelColor
         )
+        // Main text
         Text(
             text = text,
             fontSize = fontSize,

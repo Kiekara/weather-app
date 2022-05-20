@@ -17,8 +17,10 @@ import androidx.compose.ui.unit.dp
 import fi.tuni.weatherapp.data.WeatherItem
 import fi.tuni.weatherapp.getDayString
 
+// Composable function for forecast list
 @Composable
 fun ForecastView(
+    // Data list to be iterated
     forecastList: List<WeatherItem>
 ) {
     Card(
@@ -33,24 +35,28 @@ fun ForecastView(
             modifier = Modifier
                 .padding(12.dp)
                 .verticalScroll(
+                    // Enable scrolling for shorter screens
                     state = rememberScrollState(),
                     enabled = true
                 ),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // 5-day forecast header
             Text(
                 text = "5-DAY FORECAST",
                 fontWeight = FontWeight.Medium
             )
+            // Iterate forecast list items and add dividers between them
             forecastList.forEach {
                 Divider(
                     modifier = Modifier.padding(12.dp),
                     color = Color.Black,
                     thickness = 0.5.dp
                 )
+                // Forecast item for a single day weather
                 ForecastItem(
-                    day = getDayString(milliSeconds = it.dt * 1000),
+                    day = getDayString(milliSeconds = it.dt.times(1000)),
                     weather = it.weather?.first()?.main,
                     windSpeed = it.wind?.speed,
                     temperature = it.main?.temp,
