@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import fi.tuni.weatherapp.R
 import fi.tuni.weatherapp.searchbar.SearchBar
 import fi.tuni.weatherapp.util.components.IconText
 
@@ -48,9 +50,9 @@ fun WeatherView(
     ) {
         // Show background image
         Image(
-            painter = rememberAsyncImagePainter(
-                model = "https://cdn.pixabay.com/photo/2014/04/02/14/09/world-map-306338_960_720.png"
-            ),
+            // The background image is a royalty-free image from Pixabay
+            // link: https://pixabay.com/vectors/world-map-earth-global-continents-306338/
+            painter = painterResource(id = R.drawable.world_map),
             contentDescription = "Background image",
             modifier = Modifier.padding(12.dp),
             alpha = 0.35f
