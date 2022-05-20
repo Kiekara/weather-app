@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import fi.tuni.weatherapp.R
 import fi.tuni.weatherapp.searchbar.SearchBar
 import fi.tuni.weatherapp.util.components.IconText
@@ -34,7 +33,9 @@ fun WeatherView(
     sunset: Long? = 0,
     icon: String? = null,
     // Callback to be invoked on search
-    onSearchCallback: (String) -> Boolean = { true },
+    onSearchCallback: (String, (Boolean) -> Unit) -> Unit = { _, callback ->
+        callback(true)
+    },
     // Callback to be invoked on reset
     onResetCallback: () -> Unit = {},
     // Callback to be invoked on refresh
@@ -63,10 +64,7 @@ fun WeatherView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchBar(
-                onSearchCallback = {
-                    // Invoke onSearchCallback with the given input
-                    onSearchCallback(it)
-                }
+                onSearchCallback = onSearchCallback
             )
             Spacer(modifier = Modifier.height(16.dp))
             // Current or searched location text

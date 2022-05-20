@@ -14,7 +14,7 @@ import fi.tuni.weatherapp.util.components.CustomTextField
 @Composable
 fun SearchBar(
     // Callback to be invoked on search
-    onSearchCallback: (String) -> Boolean
+    onSearchCallback: (String, (Boolean) -> Unit) -> Unit
 ) {
     // User input text state
     val text = remember { mutableStateOf(value = "") }
@@ -36,8 +36,11 @@ fun SearchBar(
                 text.value = ""
             },
             onDone = {
-                // Invoke onSearchCallback with current value
-                onSearchCallback(text.value)
+                // Invoke onSearchCallback
+                onSearchCallback(text.value) {
+                    // If search is a success, clear the input from the state
+                    if (it) text.value = ""
+                }
             },
             padding = 9.dp,
             width = (configuration.screenWidthDp / 2).dp,
@@ -46,8 +49,11 @@ fun SearchBar(
         )
         Button(
             onClick = {
-                // If search was a success, clear the input from the state
-                if (onSearchCallback(text.value)) text.value = ""
+                // Invoke onSearchCallback
+                onSearchCallback(text.value) {
+                    // If search is a success, clear the input from the state
+                    if (it) text.value = ""
+                }
             },
             colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant)
         ) {

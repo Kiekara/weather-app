@@ -139,17 +139,17 @@ fun MainScreen(activityContext: ComponentActivity) {
                 sunrise = weatherObj.value.sys?.sunrise,
                 sunset = weatherObj.value.sys?.sunset,
                 icon = weatherObj.value.weather?.first()?.icon,
-                onSearchCallback = {
+                onSearchCallback = { city, onResponse ->
                     // Construct urls with the given input
-                    constructWeatherAndForecastUrls(city = it).forEach { url ->
+                    constructWeatherAndForecastUrls(city = city).forEach { url ->
                         // Fetch the data with the given url
                         url!!.fetchDataAsync { response ->
+                            // Invoke onResponse callback for search field clearance
+                            onResponse(response.second)
                             // Invoke onFetchCallback with the response and the url
                             onFetchCallback(response, url)
                         }
                     }
-                    // Return a boolean value of whether the search was successful or not
-                    locationNotFound.value
                 },
                 onResetCallback = {
                     // Check the current location or reset any search results
