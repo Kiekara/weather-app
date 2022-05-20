@@ -48,7 +48,8 @@ fun SearchBar(
             onClick = {
                 // If search was a success, clear the input from the state
                 if (onSearchCallback(text.value)) text.value = ""
-            }
+            },
+            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant)
         ) {
             Text(text = "Search")
         }
