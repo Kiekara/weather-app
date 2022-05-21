@@ -4,6 +4,16 @@
 4cast also offers a possibility to search for a different location. The searched location
 can be reset to the current location and any on screen information can be updated.
 
+## Tech
+
+4cast is coded with Kotlin only using modern toolkit, Jetpack Compose, for UI implementation.
+4cast also uses the following external modules:
+- Google's play services location API
+- Google's permission accomppanist API (still experimental)
+- OkHttp http client
+- Jackson json parser
+- Coil compose
+
 ## Target
 
 4cast will only be available for Android.
