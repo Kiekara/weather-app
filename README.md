@@ -1,11 +1,12 @@
-# Weather App
+# 4cast
 
-Weather App is an app for checking local weather and forecast. It will also be possible to check weather and
-forecast elsewhere.
+4cast is an app for checking local weather and 5-day forecast using the user location data.
+4cast also offers a possibility to search for a different location. The searched location
+can be reset to the current location and any on screen information can be updated.
 
 ## Target
 
-Weather App will only be available for Android.
+4cast will only be available for Android.
 
 ## Installation
 
@@ -13,7 +14,7 @@ via Google Play (when released)
 
 ## API
 
-Weather App uses [OpenWeatherMap](https://openweathermap.org/api) API
+4cast uses [OpenWeatherMap](https://openweathermap.org/api) API
 
 ## Credits
 
