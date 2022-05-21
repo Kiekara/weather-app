@@ -1,4 +1,4 @@
-# 4cast
+# 4cast - Weather App
 
 4cast is an app for checking local weather and 5-day forecast using the user location data.
 4cast also offers a possibility to search for a different location. The searched location
