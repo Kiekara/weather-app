@@ -9,7 +9,7 @@ can be reset to the current location and any on screen information can be update
 4cast is coded with Kotlin only using modern toolkit, Jetpack Compose, for UI implementation.
 4cast also uses the following external modules:
 - Google's play services location API
-- Google's permission accomppanist API (still experimental)
+- Google's permission accomppanist API (experimental)
 - OkHttp http client
 - Jackson json parser
 - Coil compose
