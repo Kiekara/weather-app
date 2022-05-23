@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "fi.tuni.weatherapp"
+        applicationId "fi.tuni.fourcast"
         minSdk 26
         targetSdk 32
         versionCode 1
