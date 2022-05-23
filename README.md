@@ -4,6 +4,10 @@
 4cast also offers a possibility to search for a different location. The searched location
 can be reset to the current location and any on screen information can be updated.
 
+                                                                         |
+------------------------------------------------------------------------:|:-----------------------------------
+![Screenshot_1](https://i.gyazo.com/c1126d3c15e44a665de8e643d4f868e8.jpg)|![Screenshot_2](https://i.gyazo.com/0f9b96af3efcebdad18382b5d8b9b568.jpg)
+
 ## Tech
 
 4cast is coded with Kotlin only using modern toolkit, Jetpack Compose, for UI implementation.
@@ -20,7 +24,7 @@ can be reset to the current location and any on screen information can be update
 
 ## Installation
 
-- Via Google Play when released (still being reviewed)
+- Via Google Play when released (still being reviewed).
 - Alternatively, download app-debug.apk from this page by opening the file and choosing the download
 option by clicking the three dots menu.
 
