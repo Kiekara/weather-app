@@ -32,10 +32,10 @@ option by clicking the three dots menu.
 
 4cast uses [OpenWeatherMap](https://openweathermap.org/api) API
 
-## Credits
-
-Romeo Kiekara
-
 ## Screencast
 
 link: [YouTube](https://youtu.be/qfXxvQpdZ8Y)
+
+## Credits
+
+Romeo Kiekara
