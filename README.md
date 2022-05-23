@@ -20,7 +20,9 @@ can be reset to the current location and any on screen information can be update
 
 ## Installation
 
-via Google Play (when released)
+- Via Google Play when released (still being reviewed)
+- Alternatively, download app-debug.apk from this page by opening the file and choosing the download
+option by clicking the three dots menu.
 
 ## API
 
