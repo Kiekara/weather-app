@@ -24,13 +24,13 @@ Screenshot 1                                                             | Scree
 
 ## Installation
 
-- Via Google Play when released (still being reviewed).
+- Via [Google Play](https://play.google.com/store/apps/details?id=fi.tuni.fourcast).
 - Alternatively, download app-debug.apk from this page by opening the file and choosing the download
 option by clicking the three dots menu.
 
 ## API
 
-4cast uses [OpenWeatherMap](https://openweathermap.org/api) API
+4cast uses [OpenWeatherMap API](https://openweathermap.org/api)
 
 ## Screencast
 
